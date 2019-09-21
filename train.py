@@ -7,8 +7,8 @@ import time
 import numpy as np
 import torch.distributed as dist
 import torch.utils.data.distributed
-from apex.fp16_utils import FP16_Optimizer
-from apex.parallel import DistributedDataParallel
+# from apex.fp16_utils import FP16_Optimizer
+# from apex.parallel import DistributedDataParallel
 from warpctc_pytorch import CTCLoss
 
 from data.data_loader import AudioDataLoader, SpectrogramDataset, BucketingSampler, DistributedBucketingSampler
@@ -216,12 +216,13 @@ if __name__ == '__main__':
     parameters = model.parameters()
     optimizer = torch.optim.SGD(parameters, lr=args.lr,
                                 momentum=args.momentum, nesterov=True, weight_decay=1e-5)
-    if args.distributed:
-        model = DistributedDataParallel(model)
-    if args.mixed_precision:
-        optimizer = FP16_Optimizer(optimizer,
-                                   static_loss_scale=args.static_loss_scale,
-                                   dynamic_loss_scale=args.dynamic_loss_scale)
+    # if args.distributed:
+    #     model = DistributedDataParallel(model)
+    # if args.mixed_precision:
+    #     optimizer = FP16_Optimizer(optimizer,
+    #                                static_loss_scale=args.static_loss_scale,
+    #                                dynamic_loss_scale=args.dynamic_loss_scale)
+    
     if optim_state is not None:
         optimizer.load_state_dict(optim_state)
     print(model)

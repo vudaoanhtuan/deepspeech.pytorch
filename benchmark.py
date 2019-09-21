@@ -5,8 +5,8 @@ import time
 import torch
 import torch.distributed as dist
 import torch.utils.data.distributed
-from apex.fp16_utils import FP16_Optimizer
-from apex.parallel import DistributedDataParallel
+# from apex.fp16_utils import FP16_Optimizer
+# from apex.parallel import DistributedDataParallel
 from tqdm import tqdm
 from tqdm import trange
 from warpctc_pytorch import CTCLoss
@@ -78,12 +78,12 @@ print("Number of parameters: %d" % DeepSpeech.get_param_size(model))
 
 parameters = model.parameters()
 optimizer = torch.optim.SGD(parameters, lr=3e-4, momentum=0.9, nesterov=True, weight_decay=1e-5)
-if args.distributed:
-    model = DistributedDataParallel(model)
-if args.mixed_precision:
-    optimizer = FP16_Optimizer(optimizer,
-                               static_loss_scale=args.static_loss_scale,
-                               dynamic_loss_scale=args.dynamic_loss_scale)
+# if args.distributed:
+#     model = DistributedDataParallel(model)
+# if args.mixed_precision:
+#     optimizer = FP16_Optimizer(optimizer,
+#                                static_loss_scale=args.static_loss_scale,
+#                                dynamic_loss_scale=args.dynamic_loss_scale)
 
 criterion = CTCLoss()
 

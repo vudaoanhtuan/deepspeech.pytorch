@@ -1,5 +1,5 @@
 import torch
-from apex.fp16_utils import BN_convert_float
+# from apex.fp16_utils import BN_convert_float
 import torch.distributed as dist
 
 from model import DeepSpeech
@@ -9,6 +9,7 @@ def convert_model_to_half(model):
     """
     Converts model to half but keeps the batch norm layers in 32 bit for precision purposes
     """
+    raise Exception("Not using apex")
     old_model = model
     new_model = BN_convert_float(model.half())
     del old_model  # Delete previous non-half model

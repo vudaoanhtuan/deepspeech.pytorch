@@ -16,8 +16,8 @@ if [ ! -e deepspeech.pytorch ]; then
     git clone https://github.com/vudaoanhtuan/deepspeech.pytorch.git
 fi
 mkdir deepspeech.pytorch/models
-PREV_DIR=$(ls -1r $GD_MODEL_DIR | head -n 1)
-LAST_CHECKPOINT="$GD_MODEL_DIR/deepspeech_2.pth.tar"
+PREV_DIR=$(ls -1r "$GD_MODEL_DIR" | head -n 1)
+LAST_CHECKPOINT="$GD_MODEL_DIR/$PREV_DIR/deepspeech_2.pth.tar"
 cp "$LAST_CHECKPOINT" deepspeech.pytorch/models/checkpoint.pth.tar
 
 echo "Start trainning"

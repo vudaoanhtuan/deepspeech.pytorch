@@ -305,6 +305,7 @@ if __name__ == '__main__':
         avg_loss /= len(train_sampler)
 
         epoch_time = time.time() - start_epoch_time
+        print(' '*100, end='\r')
         print('Training Summary Epoch: [{0}]\t'
               'Time taken (s): {epoch_time:.0f}\t'
               'Average Loss {loss:.3f}\t'.format(epoch + 1, epoch_time=epoch_time, loss=avg_loss))

@@ -250,9 +250,9 @@ if __name__ == '__main__':
 
             out, output_sizes = model(inputs, input_sizes)
             out = out.transpose(0, 1)  # TxNxH
-
             out = out.log_softmax(dim=-1) # pytorch CTCLoss require log_softmax probs
             float_out = out.float()  # ensure float32 for loss
+            output_sizes = output_sizes.to(device)
             loss = criterion(float_out, targets, output_sizes, target_sizes)
             loss = loss / inputs.size(0)  # average the loss by minibatch
 

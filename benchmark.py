@@ -106,6 +106,7 @@ def iteration(inputs):
 
     out = out.log_softmax(dim=-1)
     float_out = out.float()  # ensure float32 for loss
+    output_sizes = output_sizes.to(device)
     loss = criterion(float_out, targets, output_sizes, target_sizes)
     loss = loss / inputs.size(0)  # average the loss by minibatch
     optimizer.zero_grad()

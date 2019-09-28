@@ -100,6 +100,9 @@ def iteration(inputs):
 
     out, output_sizes = model(inputs, input_sizes)
     out = out.transpose(0, 1)  # TxNxH
+    inputs = inputs.to(device)
+    targets = targets.to(device)
+    target_sizes = target_sizes.to(device)
 
     out = out.log_softmax(dim=-1)
     float_out = out.float()  # ensure float32 for loss

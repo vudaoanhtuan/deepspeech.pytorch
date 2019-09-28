@@ -85,7 +85,7 @@ optimizer = torch.optim.SGD(parameters, lr=3e-4, momentum=0.9, nesterov=True, we
 #                                static_loss_scale=args.static_loss_scale,
 #                                dynamic_loss_scale=args.dynamic_loss_scale)
 
-criterion = nn.CTCLoss(reduction='sum')
+criterion = nn.CTCLoss(reduction='sum').to(device)
 
 seconds = int(args.seconds)
 batch_size = int(args.batch_size)

@@ -228,7 +228,7 @@ if __name__ == '__main__':
     print(model)
     print("Number of parameters: %d" % DeepSpeech.get_param_size(model))
 
-    criterion = nn.CTCLoss(reduction='sum')
+    criterion = nn.CTCLoss(reduction='sum').to(device)
     batch_time = AverageMeter()
     data_time = AverageMeter()
     losses = AverageMeter()

@@ -5,11 +5,11 @@ import random
 import time
 
 import numpy as np
+import torch.nn as nn
 import torch.distributed as dist
 import torch.utils.data.distributed
 # from apex.fp16_utils import FP16_Optimizer
 # from apex.parallel import DistributedDataParallel
-from warpctc_pytorch import CTCLoss
 
 from data.data_loader import AudioDataLoader, SpectrogramDataset, BucketingSampler, DistributedBucketingSampler
 from decoder import GreedyDecoder
@@ -228,7 +228,7 @@ if __name__ == '__main__':
     print(model)
     print("Number of parameters: %d" % DeepSpeech.get_param_size(model))
 
-    criterion = CTCLoss()
+    criterion = nn.CTCLoss(reduction='sum')
     batch_time = AverageMeter()
     data_time = AverageMeter()
     losses = AverageMeter()
@@ -249,6 +249,7 @@ if __name__ == '__main__':
             out, output_sizes = model(inputs, input_sizes)
             out = out.transpose(0, 1)  # TxNxH
 
+            out = out.log_softmax(dim=-1) # pytorch CTCLoss require log_softmax probs
             float_out = out.float()  # ensure float32 for loss
             loss = criterion(float_out, targets, output_sizes, target_sizes).to(device)
             loss = loss / inputs.size(0)  # average the loss by minibatch

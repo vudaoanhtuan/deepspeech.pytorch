@@ -3,13 +3,13 @@ import json
 import time
 
 import torch
+import torch.nn as nn
 import torch.distributed as dist
 import torch.utils.data.distributed
 # from apex.fp16_utils import FP16_Optimizer
 # from apex.parallel import DistributedDataParallel
 from tqdm import tqdm
 from tqdm import trange
-from warpctc_pytorch import CTCLoss
 
 from model import DeepSpeech, supported_rnns
 from utils import convert_model_to_half
@@ -85,7 +85,7 @@ optimizer = torch.optim.SGD(parameters, lr=3e-4, momentum=0.9, nesterov=True, we
 #                                static_loss_scale=args.static_loss_scale,
 #                                dynamic_loss_scale=args.dynamic_loss_scale)
 
-criterion = CTCLoss()
+criterion = nn.CTCLoss(reduction='sum')
 
 seconds = int(args.seconds)
 batch_size = int(args.batch_size)
@@ -101,6 +101,7 @@ def iteration(inputs):
     out, output_sizes = model(inputs, input_sizes)
     out = out.transpose(0, 1)  # TxNxH
 
+    out = out.log_softmax(dim=-1)
     float_out = out.float()  # ensure float32 for loss
     loss = criterion(float_out, targets, output_sizes, target_sizes)
     loss = loss / inputs.size(0)  # average the loss by minibatch

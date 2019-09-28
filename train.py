@@ -245,15 +245,13 @@ if __name__ == '__main__':
             # measure data loading time
             data_time.update(time.time() - end)
             inputs = inputs.to(device)
-            targets = targets.to(device)
-            target_sizes = target_sizes.to(device)
 
             out, output_sizes = model(inputs, input_sizes)
             out = out.transpose(0, 1)  # TxNxH
+
             out = out.log_softmax(dim=-1) # pytorch CTCLoss require log_softmax probs
             float_out = out.float()  # ensure float32 for loss
-            output_sizes = output_sizes.to(device)
-            loss = criterion(float_out, targets, output_sizes, target_sizes)
+            loss = criterion(float_out.to(device), targets.to(device), output_sizes.to(device), target_sizes.to(device))
             loss = loss / inputs.size(0)  # average the loss by minibatch
 
             if args.distributed:

@@ -26,8 +26,8 @@ if __name__=='__main__':
     text_path = []
 
     for line in data:
-        v = line[:15]
-        t = line[16:].lower()
+        v = line[:15].strip()
+        t = line[16:].strip().lower()
         vp = os.path.join(voice_dir, v+'.wav')
         tp = os.path.join(transcribe_dir, v+'.txt')
         with open(tp, 'w') as f:

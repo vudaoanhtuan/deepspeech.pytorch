@@ -27,7 +27,7 @@ if __name__=='__main__':
 
     for line in data:
         v = line[:15]
-        t = line[16:]
+        t = line[16:].lower()
         vp = os.path.join(voice_dir, v+'.wav')
         tp = os.path.join(transcribe_dir, v+'.txt')
         with open(tp, 'w') as f:

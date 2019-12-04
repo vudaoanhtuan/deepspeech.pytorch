@@ -27,9 +27,9 @@ if __name__=='__main__':
 
     for line in data:
         v = line[:15].strip()
-        pd = v[:10]
+        parent_dir = v[:10]
         t = line[16:].strip().lower()
-        vp = os.path.join(voice_dir, pd, v+'.wav')
+        vp = os.path.join(voice_dir, parent_dir, v+'.wav')
         tp = os.path.join(transcribe_dir, v+'.txt')
         with open(tp, 'w') as f:
             f.write(t)

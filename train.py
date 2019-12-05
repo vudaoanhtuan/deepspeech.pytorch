@@ -362,3 +362,6 @@ if __name__ == '__main__':
         if not args.no_shuffle:
             print("Shuffling batches...")
             train_sampler.shuffle(epoch)
+
+    # Close tensorboardX writer
+    tensorboard_logger.tensorboard_writer.close()

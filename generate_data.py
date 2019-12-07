@@ -55,9 +55,9 @@ if __name__ == "__main__":
         with open(tp) as f:
             text = f.read().strip()
         decoded_output, decoded_offsets = transcribe(vp, parser, model, decoder, device)
-    for h in decoded_output[0]:
-        src.append(h)
-        lbl.append(text)
+        for h in decoded_output[0]:
+            src.append(h)
+            lbl.append(text)
 
     df = pd.DataFrame({"src": src, "lbl": lbl})
     df.to_csv(args.manifest_file + '.cor', index=False, header=False, sep='\t')

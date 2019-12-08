@@ -60,5 +60,5 @@ if __name__ == "__main__":
         pred.append(decoded_output[0][0])
         lbl.append(text)
 
-    df = pd.DataFrame({"src": src, "lbl": lbl})
-    df.to_csv(args.manifest_file + '.cor', index=False, header=False, sep='\t')
+    df = pd.DataFrame({"id": idx, "predict": pred, "label": lbl})
+    df.to_csv(args.manifest_file + '.pred', header=False)

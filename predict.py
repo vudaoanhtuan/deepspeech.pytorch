@@ -24,6 +24,9 @@ def get_args():
     parser.add_argument('--model_file', required=True)
     parser.add_argument('--beam_size', type=int, default=10)
     parser.add_argument('--num_worker', type=int, default=4)
+    parser.add_argument('--lm_path', default=None)
+    parser.add_argument('--alpha', type=int, default=0)
+    parser.add_argument('--beta', type=int, default=0)
     args = parser.parse_args()
     return args
 
@@ -43,7 +46,11 @@ if __name__ == "__main__":
     model = load_model(device, args.model_file, True)
 
     parser = SpectrogramParser(model.audio_conf, normalize=True)
-    decoder = BeamCTCDecoder(model.labels, beam_width=args.beam_size, num_processes=args.num_worker, blank_index=0)
+    decoder = BeamCTCDecoder(
+        model.labels, 
+        lm_path=args.lm_path, alpha=args.alpha, beta=args.beta,
+        beam_width=args.beam_size, num_processes=args.num_worker, blank_index=0
+    )
 
     with open(args.manifest_file) as f:
         data = f.read().split('\n')[:-1]
@@ -61,4 +68,4 @@ if __name__ == "__main__":
         lbl.append(text)
 
     df = pd.DataFrame({"id": idx, "predict": pred, "label": lbl})
-    df.to_csv(args.manifest_file + '.pred', header=False)
+    df.to_csv(args.manifest_file + '.pred', index=False)

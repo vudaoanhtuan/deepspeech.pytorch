@@ -25,8 +25,8 @@ def get_args():
     parser.add_argument('--beam_size', type=int, default=10)
     parser.add_argument('--num_worker', type=int, default=4)
     parser.add_argument('--lm_path', default=None)
-    parser.add_argument('--alpha', type=int, default=0)
-    parser.add_argument('--beta', type=int, default=0)
+    parser.add_argument('--alpha', type=float, default=0)
+    parser.add_argument('--beta', type=float, default=0)
     args = parser.parse_args()
     return args
 
